@@ -1,0 +1,16 @@
+img {
+  max-width: 100%;
+}
+
+.reportsTable th,
+.reportsTable td {
+  text-align: center;
+}
+
+.reportsTable td {
+  font-size: 0.9em;
+}
+
+.reportsTable .phase {
+  text-transform: uppercase;
+}
