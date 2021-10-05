@@ -1,0 +1,32 @@
+.menuItem {
+  all: unset;
+  position: relative;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+.menuItem span {
+  all: unset;
+}
+.menuItem span.desc {
+  all: unset;
+  position: absolute;
+  left: -50%;
+  top: 30%;
+  display: none;
+}
+.menuItem:hover span.desc {
+  display: inline;
+  z-index: 10;
+  /* background-color: black; */
+  color: rgba(74, 255, 237, 0.952);
+  font-size: 0.9rem;
+  text-shadow: 1px 1px 1px black;
+  padding: 0;
+  white-space: nowrap;
+}
+@media screen and (min-width: 500px) {
+  .menuItem {
+    font-size: 1.7rem;
+  }
+}

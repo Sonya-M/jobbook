@@ -1,0 +1,23 @@
+.LoginForm {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.LoginForm input {
+  margin: 0.5rem;
+  width: 100%;
+}
+
+.LoginForm button {
+  margin: 0.5rem;
+  width: 100%;
+}
+
+@media screen and (min-width: 600px) {
+  .LoginForm {
+    width: 70%;
+    max-width: 30rem;
+  }
+}

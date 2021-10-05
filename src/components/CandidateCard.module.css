@@ -1,0 +1,26 @@
+.candidateCard {
+  width: 100%;
+  height: 100%;
+  margin: 0.4rem;
+}
+.candidateCard img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.candidateCard .name,
+.candidateCard .email {
+  word-break: break-all;
+  text-align: center;
+  margin: 0.1rem;
+}
+
+.candidateCard .email {
+  font-size: 0.8rem;
+  color: #444;
+}
