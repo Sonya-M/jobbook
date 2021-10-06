@@ -117,8 +117,8 @@ export default function Wizard(props) {
       .then((response) => console.log(response))
       .then(history.push("/admin"))
       .catch((error) => {
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
         setError(error.message);
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
       });
   };
 

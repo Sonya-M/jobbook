@@ -30,8 +30,8 @@ export default function CandidateReports(props) {
       })
       .catch((error) => {
         console.log(error);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
         setError(error.message);
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
       })
       .finally(() => {
         setLoadingCandidate(false);
@@ -46,8 +46,8 @@ export default function CandidateReports(props) {
       })
       .catch((error) => {
         console.log(error);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
         setError(error.message);
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
       })
       .finally(() => {
         setLoadingReports(false);
