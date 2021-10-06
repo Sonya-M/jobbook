@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ErrorDisplay from "../ErrorDisplay";
 import WizSelectBtns from "./WizSelectBtns";
 import WizOptionList from "./WizOptionList";
@@ -6,10 +6,12 @@ import WizOptionList from "./WizOptionList";
 import { Row } from "react-bootstrap";
 import styles from "./WizSelect.module.css";
 import SearchBar from "../SearchBar";
+import AuthContext from "../../store/auth-context";
 import { SESSION_EXPIRED } from "../../shared/constants";
 import LoaderRipple from "../UI/LoaderRipple";
 
 export default function WizSelect(props) {
+  const authCtx = useContext(AuthContext);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -18,7 +20,6 @@ export default function WizSelect(props) {
   const { communicator } = props;
   const { ItemCard } = props;
 
-  const { onSessionExpired } = props;
   useEffect(() => {
     communicator
       .getAll()
@@ -27,7 +28,7 @@ export default function WizSelect(props) {
         setItems(data);
       })
       .catch((error) => {
-        if (error.message === SESSION_EXPIRED) onSessionExpired();
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
         setError(error.message);
       })
       .finally(setLoading(false));
