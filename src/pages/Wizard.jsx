@@ -79,8 +79,6 @@ const wizReducer = (state, action) => {
 };
 
 export default function Wizard(props) {
-  const { id } = useParams();
-  console.log(id);
   const authCtx = useContext(AuthContext);
   const history = useHistory();
   const [error, setError] = useState("");
@@ -90,6 +88,88 @@ export default function Wizard(props) {
   const [companies, setCompanies] = useState([]);
   const [loadingCandidates, setLoadingCandidates] = useState(true);
   const [loadingCompanies, setLoadingCompanies] = useState(true);
+  const [loadingReport, setLoadingReport] = useState(true);
+
+  // if id !== 0 you are editing a report, not creating it
+  const { id } = useParams();
+  const [selectedReport, setSelectedReport] = useState(null);
+  useEffect(() => {
+    if (+id !== 0) {
+      ReportCommunicator.getById(+id)
+        .then((data) => {
+          console.log("report: ", data);
+          setSelectedReport(data); // TODO: find a way to update wizState for
+          // candidate & company from selectedReport (you only have the ids, not
+          // the entire objects)
+        })
+        .catch((error) => {
+          setError(error.message);
+          if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+        })
+        .finally(() => {
+          setLoadingReport(false);
+        });
+    } else {
+      setLoadingReport(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    CandidateCommunicator.getAll()
+      .then((data) => {
+        console.log("items: ", data);
+        setCandidates(data);
+      })
+      .catch((error) => {
+        setError(error.message);
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+      })
+      .finally(setLoadingCandidates(false));
+  }, []);
+
+  useEffect(() => {
+    CompanyCommunicator.getAll()
+      .then((data) => {
+        console.log("items: ", data);
+        setCompanies(data);
+      })
+      .catch((error) => {
+        setError(error.message);
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+      })
+      .finally(setLoadingCompanies(false));
+  }, []);
+
+  useEffect(() => {
+    if (!loadingCandidates && !loadingCompanies && !loadingReport) {
+      if (selectedReport && candidates.length !== 0 && companies.length !== 0) {
+        console.log("Cand id: ", selectedReport.candidateId);
+        console.log("candidates before find: ", candidates);
+        const candidate = candidates.find(
+          (c) => c.id == selectedReport.candidateId
+        );
+        const company = companies.find((c) => c.id == selectedReport.companyId);
+        console.log(
+          "Selected report: ",
+          selectedReport,
+          " selectedCandidate ",
+          candidate
+        );
+        dispatchWizAction({
+          type: "SELECT_CANDIDATE",
+          payload: candidate,
+        });
+        dispatchWizAction({ type: "SELECT_COMPANY", payload: company });
+      }
+    }
+  }, [
+    loadingCandidates,
+    loadingCompanies,
+    loadingReport,
+    selectedReport,
+    companies,
+    candidates,
+  ]);
 
   const handleSelectCandidate = (candidate) => {
     dispatchWizAction({ type: "SELECT_CANDIDATE", payload: candidate });
@@ -120,6 +200,7 @@ export default function Wizard(props) {
       companyName: wizState.selectedCompany.name,
     };
     const reportData = { ...selectedData, interviewDate, phase, status, note };
+    if (selectedReport) reportData.id = +selectedReport.id;
     console.log("reportData: ", reportData);
     ReportCommunicator.save(reportData)
       .then((response) => console.log(response))
@@ -130,32 +211,6 @@ export default function Wizard(props) {
       });
   };
 
-  useEffect(() => {
-    CandidateCommunicator.getAll()
-      .then((data) => {
-        console.log("items: ", data);
-        setCandidates(data);
-      })
-      .catch((error) => {
-        setError(error.message);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
-      })
-      .finally(setLoadingCandidates(false));
-  }, []);
-
-  useEffect(() => {
-    CompanyCommunicator.getAll()
-      .then((data) => {
-        console.log("items: ", data);
-        setCompanies(data);
-      })
-      .catch((error) => {
-        setError(error.message);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
-      })
-      .finally(setLoadingCompanies(false));
-  }, []);
-
   const sharedSelectProps = {
     currentStep: wizState.currentStep,
     onBackBtnClick: handleBackBtnClick,
@@ -163,7 +218,8 @@ export default function Wizard(props) {
   };
 
   if (error) return <ErrorDisplay message={error} />;
-  if (loadingCandidates || loadingCompanies) return <LoaderRipple />;
+  if (loadingCandidates || loadingCompanies || loadingReport)
+    return <LoaderRipple />;
 
   return (
     <Row className="mt-4  m-0">
@@ -208,6 +264,7 @@ export default function Wizard(props) {
           <WizReportForm
             onBackBtnClick={handleBackBtnClick}
             onSubmit={handleFormSubmit}
+            selectedReport={selectedReport}
           />
         )}
       </Col>

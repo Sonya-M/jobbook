@@ -28,4 +28,16 @@ export default class ReportCommunicator {
     return service.deleteData("reports", reportID)
       .then(response => response);
   }
+
+  static getById(id) {
+    return service.getData("reports", [{ key: "id", value: id }])
+      .then(json => {
+        console.log("getSingleReport", json);
+        const noResults = json.length === 0; // server returns empty array when no results
+        if (noResults) console.log("getSingleReport: No results!");
+        else console.assert(json.length === 1);
+        return (noResults ? json : new Report(json[0]));
+      });
+  }
+
 }
