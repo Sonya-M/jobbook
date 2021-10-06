@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useContext, useReducer, useState } from "react";
 import { useHistory } from "react-router-dom";
 import ReportCommunicator from "../services/ReportCommunicator";
 import CandidateCommunicator from "../services/CandidateCommunicator";
@@ -11,7 +11,7 @@ import WizCandidateCard from "../components/wiz/WizCandidateCard";
 import WizCompanyCard from "../components/wiz/WizCompanyCard";
 import WizReportForm from "../components/wiz/WizReportForm";
 import WizSelectedInfo from "../components/wiz/WizSelectedInfo";
-
+import AuthContext from "../store/auth-context";
 import { SESSION_EXPIRED } from "../shared/constants";
 
 import styles from "./Wizard.module.css";
@@ -78,6 +78,7 @@ const wizReducer = (state, action) => {
 };
 
 export default function Wizard(props) {
+  const authCtx = useContext(AuthContext);
   const history = useHistory();
   const [error, setError] = useState("");
   const [wizState, dispatchWizAction] = useReducer(wizReducer, defaultWizState);
@@ -116,8 +117,8 @@ export default function Wizard(props) {
       .then((response) => console.log(response))
       .then(history.push("/admin"))
       .catch((error) => {
-        if (error.message === SESSION_EXPIRED) props.onSessionExpired();
         setError(error.message);
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
       });
   };
 
@@ -125,7 +126,6 @@ export default function Wizard(props) {
     currentStep: wizState.currentStep,
     onBackBtnClick: handleBackBtnClick,
     onNextBtnClick: handleNextBtnClick,
-    onSessionExpired: props.onSessionExpired,
   };
 
   if (error) return <ErrorDisplay message={error} />;

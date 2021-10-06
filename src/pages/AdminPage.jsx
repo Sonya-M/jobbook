@@ -30,8 +30,8 @@ export default function AdminPage(props) {
       })
       .catch((error) => {
         console.log(error);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
         setError(error.message);
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
       })
       .finally(() => {
         setLoading(false);
@@ -65,8 +65,8 @@ export default function AdminPage(props) {
           getReports();
         })
         .catch((error) => {
-          if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
           setError(error.message);
+          if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
         })
         .finally(() => {
           setReportToDelete(null);

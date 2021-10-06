@@ -26,8 +26,8 @@ const Candidates = (props) => {
         setFilteredCandidates(data);
       })
       .catch((error) => {
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
         setError(error.message);
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
       })
       .finally(() => {
         setLoading(false);
