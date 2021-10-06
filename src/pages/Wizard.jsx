@@ -1,5 +1,5 @@
-import React, { useContext, useReducer, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useReducer, useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import ReportCommunicator from "../services/ReportCommunicator";
 import CandidateCommunicator from "../services/CandidateCommunicator";
 import CompanyCommunicator from "../services/CompanyCommunicator";
@@ -16,6 +16,7 @@ import { SESSION_EXPIRED } from "../shared/constants";
 
 import styles from "./Wizard.module.css";
 import ErrorDisplay from "../components/ErrorDisplay";
+import LoaderRipple from "../components/UI/LoaderRipple";
 
 const defaultWizState = {
   selectedCandidate: null,
@@ -78,10 +79,17 @@ const wizReducer = (state, action) => {
 };
 
 export default function Wizard(props) {
+  const { id } = useParams();
+  console.log(id);
   const authCtx = useContext(AuthContext);
   const history = useHistory();
   const [error, setError] = useState("");
   const [wizState, dispatchWizAction] = useReducer(wizReducer, defaultWizState);
+
+  const [candidates, setCandidates] = useState([]);
+  const [companies, setCompanies] = useState([]);
+  const [loadingCandidates, setLoadingCandidates] = useState(true);
+  const [loadingCompanies, setLoadingCompanies] = useState(true);
 
   const handleSelectCandidate = (candidate) => {
     dispatchWizAction({ type: "SELECT_CANDIDATE", payload: candidate });
@@ -122,6 +130,32 @@ export default function Wizard(props) {
       });
   };
 
+  useEffect(() => {
+    CandidateCommunicator.getAll()
+      .then((data) => {
+        console.log("items: ", data);
+        setCandidates(data);
+      })
+      .catch((error) => {
+        setError(error.message);
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+      })
+      .finally(setLoadingCandidates(false));
+  }, []);
+
+  useEffect(() => {
+    CompanyCommunicator.getAll()
+      .then((data) => {
+        console.log("items: ", data);
+        setCompanies(data);
+      })
+      .catch((error) => {
+        setError(error.message);
+        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+      })
+      .finally(setLoadingCompanies(false));
+  }, []);
+
   const sharedSelectProps = {
     currentStep: wizState.currentStep,
     onBackBtnClick: handleBackBtnClick,
@@ -129,6 +163,7 @@ export default function Wizard(props) {
   };
 
   if (error) return <ErrorDisplay message={error} />;
+  if (loadingCandidates || loadingCompanies) return <LoaderRipple />;
 
   return (
     <Row className="mt-4  m-0">
@@ -154,7 +189,7 @@ export default function Wizard(props) {
         {wizState.currentStep === 0 && (
           <WizSelect
             onSelectItem={handleSelectCandidate}
-            communicator={CandidateCommunicator}
+            items={candidates}
             ItemCard={WizCandidateCard}
             selected={wizState.selectedCandidate}
             {...sharedSelectProps}
@@ -163,7 +198,7 @@ export default function Wizard(props) {
         {wizState.currentStep === 1 && (
           <WizSelect
             onSelectItem={handleSelectCompany}
-            communicator={CompanyCommunicator}
+            items={companies}
             ItemCard={WizCompanyCard}
             selected={wizState.selectedCompany}
             {...sharedSelectProps}

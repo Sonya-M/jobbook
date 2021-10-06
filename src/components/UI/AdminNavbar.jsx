@@ -21,7 +21,7 @@ export default function AdminNavbar(props) {
     <Link to="/">
       <MenuItem icon={<BsFillHouseFill />} desc="Home" />
     </Link>,
-    <Link to="/wizard">
+    <Link to="/wizard/0">
       <MenuItem icon={<BsPlusCircle />} desc="New Report" />
     </Link>,
     <span onClick={authCtx.onLogout}>

@@ -10,7 +10,7 @@ const Backdrop = (props) => {
 
 const ModalOverlay = (props) => {
   return (
-    <div className={`${props.small ? styles.modal : styles.smallModal}`}>
+    <div className={`${props.small ? styles.smallModal : styles.modal}`}>
       <header className={styles.header}>
         <h2>{props.title}</h2>
         <Button variant="small" onClick={props.onClick}>
@@ -31,8 +31,6 @@ const ModalWrapper = (props) => {
   return (
     <Fragment>
       {ReactDOM.createPortal(
-        // onClick={props.onClick}` since we look for `props.onClick`
-        // inside of the Backdrop
         <Backdrop onClick={props.onClick} />,
         document.getElementById("backdrop-root")
       )}

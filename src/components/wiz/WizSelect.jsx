@@ -6,33 +6,12 @@ import WizOptionList from "./WizOptionList";
 import { Row } from "react-bootstrap";
 import styles from "./WizSelect.module.css";
 import SearchBar from "../SearchBar";
-import AuthContext from "../../store/auth-context";
-import { SESSION_EXPIRED } from "../../shared/constants";
-import LoaderRipple from "../UI/LoaderRipple";
 
 export default function WizSelect(props) {
-  const authCtx = useContext(AuthContext);
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const [filterText, setFilterText] = useState("");
 
-  const { communicator } = props;
+  const { items } = props;
   const { ItemCard } = props;
-
-  useEffect(() => {
-    communicator
-      .getAll()
-      .then((data) => {
-        console.log("items: ", data);
-        setItems(data);
-      })
-      .catch((error) => {
-        setError(error.message);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
-      })
-      .finally(setLoading(false));
-  }, []);
 
   const handleSelect = (item) => {
     props.onSelectItem(item);
@@ -41,9 +20,6 @@ export default function WizSelect(props) {
   const handleSearch = (searchInput) => {
     setFilterText(searchInput);
   };
-
-  if (error) return <ErrorDisplay message={error} />;
-  if (loading) return <LoaderRipple />; //TODO
 
   return (
     <div className={styles.selectBox}>

@@ -30,7 +30,7 @@ function App() {
               <Route exact path="/candidates" component={Candidates} />
               <Route exact path="/candidate/:id" component={CandidateReports} />
               <Route exact path="/admin" component={AdminPage} />
-              <Route exact path="/wizard" component={Wizard} />
+              <Route exact path="/wizard/:id" component={Wizard} />
               <Redirect exact from="/" to="/candidates"></Redirect>
               <Route>
                 <ErrorDisplay message="Not found">
