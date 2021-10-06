@@ -5,6 +5,9 @@
   margin: 0;
   padding: 0;
 }
+.menuItem:hover {
+  filter: drop-shadow(0 0 3px #fff);
+}
 .menuItem span {
   all: unset;
 }
@@ -13,17 +16,16 @@
   position: absolute;
   left: -50%;
   top: 30%;
-  display: none;
-}
-.menuItem:hover span.desc {
-  display: inline;
   z-index: 10;
-  /* background-color: black; */
   color: rgba(74, 255, 237, 0.952);
   font-size: 0.9rem;
   text-shadow: 1px 1px 1px black;
   padding: 0;
+  display: none;
   white-space: nowrap;
+}
+.menuItem:hover span.desc {
+  display: inline;
 }
 @media screen and (min-width: 500px) {
   .menuItem {

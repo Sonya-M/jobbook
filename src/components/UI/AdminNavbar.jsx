@@ -12,7 +12,7 @@ export default function AdminNavbar(props) {
   const authCtx = useContext(AuthContext);
 
   const handleTitleClick = () => {
-    history.push("/");
+    history.push("/admin");
     window.location.reload();
   };
 

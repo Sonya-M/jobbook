@@ -5,7 +5,7 @@ import { Row } from "react-bootstrap";
 
 export default function CandidateList(props) {
   return (
-    <Row>
+    <Row className="mx-2">
       {props.candidates.map((candidate) => (
         <CandidateCard key={candidate.id} candidate={candidate} />
       ))}

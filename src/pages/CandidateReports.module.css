@@ -1,16 +1,10 @@
-img {
-  max-width: 100%;
+.container {
+  max-width: 900px;
+  margin: 1rem 0;
 }
-
-.reportsTable th,
-.reportsTable td {
-  text-align: center;
-}
-
-.reportsTable td {
-  font-size: 0.9em;
-}
-
-.reportsTable .phase {
-  text-transform: uppercase;
+@media screen and (min-width: 600px) {
+  .container {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
 }

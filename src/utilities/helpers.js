@@ -14,6 +14,16 @@ export function formatDate(date) {
     .format(date);
 }
 
+export function shortFormattedDate(date) {
+  let d = date.getDate();
+  if (d < 10) d = "0" + d;
+  let m = date.getMonth() + 1;
+  if (m < 10) m = "0" + m;
+  let y = date.getFullYear();
+  return d + "/" + m + "/" + y % 100;
+  // return date.toLocaleDateString()
+}
+
 export function formatDateForHtmlInput(date) {
   let d = date.getDate();
   if (d < 10) d = "0" + d;

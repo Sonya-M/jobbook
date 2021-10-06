@@ -4,7 +4,7 @@ import styles from "./NavWrapper.module.css";
 
 export default function NavWrapper(props) {
   return (
-    <header>
+    <header className={styles.Header}>
       <nav>
         <h2 className={styles.title}>{props.title}</h2>
         {props.menu ? (

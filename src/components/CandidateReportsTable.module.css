@@ -1,0 +1,36 @@
+.reportsTable {
+  max-width: 100%;
+  background-color: whitesmoke;
+  /* border: 1px solid lightgray; */
+  /* 
+  border-collapse: separate;
+  border-spacing: 1em; */
+}
+
+.reportsTable th,
+.reportsTable td {
+  text-align: center;
+}
+
+.reportsTable td {
+  font-size: 0.9em;
+}
+
+.reportsTable .phase {
+  text-transform: uppercase;
+}
+
+.action {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+  .reportsTable {
+    font-size: 0.8em;
+  }
+}
+@media screen and (max-width: 300px) {
+  .reportsTable {
+    font-size: 0.6em;
+  }
+}

@@ -1,0 +1,18 @@
+hr.star {
+  text-align: center; /* horizontal centering */
+  line-height: 0px; /* vertical centering!!! */
+  font-size: 2rem;
+  margin: 2rem auto;
+  overflow: visible;
+  width: 20rem;
+  max-width: 95%;
+  border: 1px solid gray;
+}
+
+hr.star:after {
+  content: "\2605"; /* section sign */
+  color: gray;
+  display: inline; /* for vertical centering and background knockout */
+  background-color: #fff; /* same as background color */
+  padding: 0 0.2rem;
+}

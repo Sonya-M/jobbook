@@ -1,4 +1,4 @@
-import { formatDate } from "../utilities/helpers";
+import { formatDate, shortFormattedDate } from "../utilities/helpers";
 
 export default class Report {
   constructor(objectLiteral) {
@@ -8,5 +8,9 @@ export default class Report {
   }
   getInterviewDate() {
     return formatDate(new Date(this.interviewDate))
+  }
+
+  getShortInterviewDate() {
+    return shortFormattedDate(new Date(this.interviewDate))
   }
 }

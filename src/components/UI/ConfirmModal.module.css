@@ -1,0 +1,84 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.212);
+}
+
+.modal {
+  position: fixed;
+  border-radius: 0.3rem;
+  top: 20vh;
+  left: 10%;
+  width: 80%;
+  z-index: 100;
+  overflow: hidden;
+  background-color: white;
+}
+
+.smallModal {
+  position: fixed;
+  border-radius: 0.3rem;
+  top: 15vh;
+  left: 20%;
+  width: 60%;
+  z-index: 100;
+  overflow: hidden;
+  background-color: white;
+}
+
+.header {
+  background: black;
+  color: white;
+  padding: 0.4rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.header h2 {
+  margin: 0;
+  display: inline-block;
+}
+
+.header button {
+  border: 1px solid whitesmoke;
+  color: white;
+}
+.header button:hover {
+  filter: drop-shadow(0 0 3px #fff);
+  color: inherit;
+}
+
+.content {
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.actions {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+@media (max-width: 500px) {
+  .modal,
+  .smallModal {
+    top: 10vh;
+    font-size: small;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal {
+    left: calc(50% - 22rem);
+    width: 44rem;
+  }
+  .smallModal {
+    left: calc(50% - 14rem);
+    width: 28rem;
+  }
+}

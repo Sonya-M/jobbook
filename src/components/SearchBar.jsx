@@ -31,6 +31,7 @@ const SearchBar = (props) => {
           type="text"
           name="searchForm"
           value={searchText}
+          placeholder="Search"
           onChange={(e) => handleChange(e.target.value)}
           style={{ borderRight: "none" }}
         />

@@ -1,0 +1,21 @@
+.candidateInfo {
+}
+
+.borderImg {
+  border-image: linear-gradient(#f6b73c, #4d9f0c) 30;
+}
+img.profileImg {
+  display: block;
+  max-width: 100%;
+  margin: 1rem auto;
+  border-radius: 50%;
+}
+
+.candidateInfoTable {
+}
+
+@media screen and (max-width: 400px) {
+  table {
+    font-size: 0.8em;
+  }
+}

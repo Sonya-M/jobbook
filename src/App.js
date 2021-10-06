@@ -21,7 +21,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <Container fluid className="App">
+      <Container fluid className="App mx-0 mb-5 p-0">
         <NavigationBar />
         {!authCtx.loggedIn ?
           (<LoginPage />) :
