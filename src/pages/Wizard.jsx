@@ -110,7 +110,7 @@ export default function Wizard(props) {
           setLoadingReport(false);
         });
     } else {
-      setLoadingReport(false);
+      setLoadingReport(false); // no need to load report if not editing it
     }
   }, []);
 
