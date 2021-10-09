@@ -9,7 +9,11 @@ import ConfirmModal from "../components/UI/ConfirmModal";
 
 import AuthContext from "../store/auth-context";
 import { SESSION_EXPIRED } from "../shared/constants";
-import { includesIgnoreCase } from "../utilities/helpers";
+import {
+  includesIgnoreCase,
+  sortByPropWithStrValue,
+  sortByDate,
+} from "../utilities/helpers";
 
 import styles from "./AdminPage.module.css";
 
@@ -97,6 +101,29 @@ export default function AdminPage(props) {
     history.push("/wizard/" + id);
   };
 
+  const sortReportsBy = (propName, desc) => {
+    setFilteredReports(sortByPropWithStrValue(filteredReports, propName, desc));
+    setReports(sortByPropWithStrValue(reports, propName, desc)); // this will
+    // preserve the sorting order when the search bar is cleared
+  };
+  const sortByCompany = (desc) => {
+    sortReportsBy("companyName", desc);
+  };
+  const sortByCandidate = (desc) => {
+    sortReportsBy("candidateName", desc);
+  };
+  const sortByPhase = (desc) => {
+    sortReportsBy("phase", desc);
+  };
+  const sortByStatus = (desc) => {
+    sortReportsBy("status", desc);
+  };
+  const sortReportsByDate = (desc) => {
+    setFilteredReports(sortByDate(filteredReports, "interviewDate", desc));
+    setReports(sortByDate(reports, "interviewDate", desc)); // this will
+    // preserve the sorting order when the search bar is cleared
+  };
+
   if (error) {
     return <ErrorDisplay message={error} />;
   }
@@ -109,6 +136,11 @@ export default function AdminPage(props) {
         reports={filteredReports}
         onDeleteReport={handleDeleteReport}
         onEditReport={handleEditReport}
+        onCompanyClick={sortByCompany}
+        onCandidateClick={sortByCandidate}
+        onDateClick={sortReportsByDate}
+        onPhaseClick={sortByPhase}
+        onStatusClick={sortByStatus}
       />
       {showConfirm ? (
         <ConfirmModal

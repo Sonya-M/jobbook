@@ -1,4 +1,13 @@
 .reportsTableTHead th {
   text-align: center;
   vertical-align: middle;
+  font-size: smaller;
+}
+
+.reportsTableTHead th span {
+  display: block;
+}
+
+.action {
+  cursor: pointer;
 }

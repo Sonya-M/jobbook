@@ -55,3 +55,43 @@ export const includesIgnoreCase = (stringToSearch, queryString) => {
 
   return true;
 };
+
+
+/**
+ * Returns a copy of given array, sorted by given property
+ * Assumes given property value is a string.
+ * Sorting is done alphabetically, case ignored.
+ * @param {Array} array array of objects to be sorted
+ * @param {string} prop property name
+ * @param {boolean} descending sort in descending order,
+ */
+export function sortByPropWithStrValue(array, prop, descending = false) {
+  if (!descending) {
+    return [...array].sort((obj1, obj2) => {
+      return (obj1[prop].toLowerCase().localeCompare(obj2[prop].toLowerCase()))
+    })
+  } else {
+    return [...array].sort((obj1, obj2) => {
+      return (obj2[prop].toLowerCase().localeCompare(obj1[prop].toLowerCase()))
+    })
+  }
+}
+
+/**
+* Sorts given array of objects by their date property
+* @param {Array} array array of objects to be sorted
+* @param {string} datePropName name of the prop with a Date value
+* @param {boolean} descending sort in descending order? False by default
+* @returns 
+*/
+export function sortByDate(array, datePropName, descending = false) {
+  if (!descending) {
+    return [...array].sort((obj1, obj2) => {
+      return (new Date(obj1[datePropName]) - new Date(obj2[datePropName]))
+    });
+  } else {
+    return [...array].sort((obj1, obj2) => {
+      return (new Date(obj2[datePropName]) - new Date(obj1[datePropName]))
+    })
+  }
+}

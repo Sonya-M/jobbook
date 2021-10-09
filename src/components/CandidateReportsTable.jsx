@@ -16,6 +16,22 @@ export default function CandidateReportsTable(props) {
     setReportToModal(r);
   };
 
+  const handleCompanyClick = (desc) => {
+    props.onCompanyClick(desc);
+  };
+  const handleCandidateClick = (desc) => {
+    props.onCandidateClick(desc);
+  };
+  const handleDateClick = (desc) => {
+    props.onDateClick(desc);
+  };
+  const handlePhaseClick = (desc) => {
+    props.onPhaseClick(desc);
+  };
+  const handleStatusClick = (desc) => {
+    props.onStatusClick(desc);
+  };
+
   return (
     <Fragment>
       <Table
@@ -24,7 +40,14 @@ export default function CandidateReportsTable(props) {
         bordered
         className={`my-2 ${styles.reportsTable}`}
       >
-        <CandidateReportsTHead admin={props.admin} />
+        <CandidateReportsTHead
+          admin={props.admin}
+          onCompanyClick={handleCompanyClick}
+          onCandidateClick={handleCandidateClick}
+          onDateClick={handleDateClick}
+          onPhaseClick={handlePhaseClick}
+          onStatusClick={handleStatusClick}
+        />
         <tbody>
           {reports.map((r) => {
             return (

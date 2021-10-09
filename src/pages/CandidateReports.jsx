@@ -7,9 +7,10 @@ import LoaderRipple from "../components/UI/LoaderRipple";
 import CandidateInfo from "../components/CandidateInfo";
 import CandidateReportsTable from "../components/CandidateReportsTable";
 import AuthContext from "../store/auth-context";
+import HrStyled from "../components/UI/HrStyled";
+import { sortByPropWithStrValue, sortByDate } from "../utilities/helpers";
 import { SESSION_EXPIRED } from "../shared/constants";
 import styles from "./CandidateReports.module.css";
-import HrStyled from "../components/UI/HrStyled";
 
 export default function CandidateReports(props) {
   const authCtx = useContext(AuthContext);
@@ -54,6 +55,25 @@ export default function CandidateReports(props) {
       });
   }, []);
 
+  // TODO: too much repetition here (see admin page)
+  const sortReportsBy = (propName, desc) => {
+    setReports(sortByPropWithStrValue(reports, propName, desc)); // this will
+    // preserve the sorting order when the search bar is cleared
+  };
+  const sortByCompany = (desc) => {
+    sortReportsBy("companyName", desc);
+  };
+  const sortByPhase = (desc) => {
+    sortReportsBy("phase", desc);
+  };
+  const sortByStatus = (desc) => {
+    sortReportsBy("status", desc);
+  };
+  const sortReportsByDate = (desc) => {
+    setReports(sortByDate(reports, "interviewDate", desc)); // this will
+    // preserve the sorting order when the search bar is cleared
+  };
+
   if (error) {
     return <ErrorDisplay message={error} />;
   }
@@ -70,7 +90,13 @@ export default function CandidateReports(props) {
       <HrStyled />
       <Fragment>
         {reports.length ? (
-          <CandidateReportsTable reports={reports} />
+          <CandidateReportsTable
+            reports={reports}
+            onCompanyClick={sortByCompany}
+            onDateClick={sortReportsByDate}
+            onPhaseClick={sortByPhase}
+            onStatusClick={sortByStatus}
+          />
         ) : (
           <ErrorDisplay message="No reports" />
         )}
