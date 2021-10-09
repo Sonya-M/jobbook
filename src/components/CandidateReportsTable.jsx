@@ -4,6 +4,7 @@ import {
   BsFillHandThumbsUpFill,
   BsFillHandThumbsDownFill,
   BsFillTrashFill,
+  BsPencilFill,
 } from "react-icons/bs";
 import { Table } from "react-bootstrap";
 import styles from "./CandidateReportsTable.module.css";
@@ -37,7 +38,14 @@ export default function CandidateReportsTable(props) {
             <th>Phase</th>
             <th>Status</th>
             <th></th>
-            {props.admin ? <th></th> : <Fragment />}
+            {props.admin ? (
+              <Fragment>
+                <th></th>
+                <th></th>
+              </Fragment>
+            ) : (
+              <Fragment />
+            )}
           </tr>
         </thead>
         <tbody>
@@ -66,13 +74,22 @@ export default function CandidateReportsTable(props) {
                   />
                 </td>
                 {props.admin ? (
-                  <td>
-                    <BsFillTrashFill
-                      color="crimson"
-                      onClick={() => props.onDeleteReport(r.id)}
-                      className={styles.action}
-                    />
-                  </td>
+                  <Fragment>
+                    <td>
+                      <BsPencilFill
+                        color="dodgerBlue"
+                        onClick={() => props.onEditReport(r.id)}
+                        className={styles.action}
+                      />
+                    </td>
+                    <td>
+                      <BsFillTrashFill
+                        color="crimson"
+                        onClick={() => props.onDeleteReport(r.id)}
+                        className={styles.action}
+                      />
+                    </td>
+                  </Fragment>
                 ) : (
                   <Fragment />
                 )}

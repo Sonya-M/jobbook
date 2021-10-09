@@ -10,14 +10,11 @@
 .reportsTable th,
 .reportsTable td {
   text-align: center;
+  vertical-align: middle;
 }
 
 .reportsTable td {
   font-size: 0.9em;
-}
-
-.reportsTable .phase {
-  /* text-transform: uppercase; */
 }
 
 .action {

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import ErrorDisplay from "../components/ErrorDisplay";
 import SearchBar from "../components/SearchBar";
 import CandidateReportsTable from "../components/CandidateReportsTable";
@@ -13,6 +14,7 @@ import { includesIgnoreCase } from "../utilities/helpers";
 import styles from "./AdminPage.module.css";
 
 export default function AdminPage(props) {
+  let history = useHistory();
   const authCtx = useContext(AuthContext);
   const [reports, setReports] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -73,7 +75,6 @@ export default function AdminPage(props) {
         });
     }
   };
-
   const handleDeleteReport = (id) => {
     setShowConfirm(true);
     setReportToDelete(id);
@@ -92,6 +93,10 @@ export default function AdminPage(props) {
     setShowConfirm(false);
   };
 
+  const handleEditReport = (id) => {
+    history.push("/wizard/" + id);
+  };
+
   if (error) {
     return <ErrorDisplay message={error} />;
   }
@@ -103,6 +108,7 @@ export default function AdminPage(props) {
         admin={true}
         reports={filteredReports}
         onDeleteReport={handleDeleteReport}
+        onEditReport={handleEditReport}
       />
       {showConfirm ? (
         <ConfirmModal
