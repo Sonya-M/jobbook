@@ -7,20 +7,6 @@
   border-spacing: 1em; */
 }
 
-.reportsTable th,
-.reportsTable td {
-  text-align: center;
-  vertical-align: middle;
-}
-
-.reportsTable td {
-  font-size: 0.9em;
-}
-
-.action {
-  cursor: pointer;
-}
-
 @media screen and (max-width: 500px) {
   .reportsTable {
     font-size: 0.8em;

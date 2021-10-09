@@ -1,0 +1,12 @@
+.reportsTableRow td {
+  font-size: 0.9em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.reportsTableRow:hover {
+  background-color: rgba(110, 232, 248, 0.151);
+}
+.action {
+  cursor: pointer;
+}
