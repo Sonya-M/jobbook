@@ -23,6 +23,13 @@ const defaultWizState = {
   selectedCompany: null,
   currentStep: 0, // currently active step, can already have input
   nextStep: 0, // next step where no input was provided by user
+
+  candidates: [],
+  companies: [],
+  editedReport: null, // can be set only when editing an existing report in db
+  loadingCandidates: true,
+  loadingCompanies: true,
+  loadingReport: true,
 };
 
 const wizReducer = (state, action) => {
@@ -75,42 +82,61 @@ const wizReducer = (state, action) => {
       return { ...state, currentStep: action.step };
     }
   }
+
+  if (action.type === "FETCHED_CANDIDATES") {
+    return { ...state, candidates: action.payload, loadingCandidates: false };
+  }
+  if (action.type === "FETCHED_COMPANIES") {
+    return { ...state, companies: action.payload, loadingCompanies: false };
+  }
+  if (action.type === "FETCHED_REPORT") {
+    return {
+      ...state,
+      editedReport: action.payload,
+      loadingReport: false,
+    };
+  }
+  if (action.type === "NO_REPORT_TO_FETCH") {
+    return { ...state, loadingReport: false };
+  }
+  if (action.type === "LOAD_EDITED_REPORT_DATA") {
+    return {
+      ...state,
+      selectedCandidate: state.candidates.find(
+        (c) => c.id === state.editedReport.candidateId
+      ),
+      selectedCompany: state.companies.find(
+        (c) => c.id === state.editedReport.companyId
+      ),
+      nextStep: 2,
+      currentStep: 2, // go to form as default, can always go back
+    };
+  }
   return defaultWizState;
 };
 
 export default function Wizard(props) {
+  // if id !== 0 you are editing a report, not creating it
+  const { id } = useParams();
   const authCtx = useContext(AuthContext);
   const history = useHistory();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
   const [wizState, dispatchWizAction] = useReducer(wizReducer, defaultWizState);
 
-  const [candidates, setCandidates] = useState([]);
-  const [companies, setCompanies] = useState([]);
-  const [loadingCandidates, setLoadingCandidates] = useState(true);
-  const [loadingCompanies, setLoadingCompanies] = useState(true);
-  const [loadingReport, setLoadingReport] = useState(true);
-
-  // if id !== 0 you are editing a report, not creating it
-  const { id } = useParams();
-  const [selectedReport, setSelectedReport] = useState(null);
   useEffect(() => {
     if (+id !== 0) {
       ReportCommunicator.getById(+id)
         .then((data) => {
           console.log("report: ", data);
-          setSelectedReport(data); // TODO: find a way to update wizState for
-          // candidate & company from selectedReport (you only have the ids, not
-          // the entire objects)
+          dispatchWizAction({ type: "FETCHED_REPORT", payload: data });
         })
         .catch((error) => {
           setError(error.message);
           if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
-        })
-        .finally(() => {
-          setLoadingReport(false);
         });
     } else {
-      setLoadingReport(false); // no need to load report if not editing it
+      dispatchWizAction({ type: "NO_REPORT_TO_FETCH" });
     }
   }, []);
 
@@ -118,57 +144,42 @@ export default function Wizard(props) {
     CandidateCommunicator.getAll()
       .then((data) => {
         console.log("items: ", data);
-        setCandidates(data);
+        dispatchWizAction({ type: "FETCHED_CANDIDATES", payload: data });
       })
       .catch((error) => {
         setError(error.message);
         if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
-      })
-      .finally(setLoadingCandidates(false));
+      });
   }, []);
 
   useEffect(() => {
     CompanyCommunicator.getAll()
       .then((data) => {
         console.log("items: ", data);
-        setCompanies(data);
+        dispatchWizAction({ type: "FETCHED_COMPANIES", payload: data });
       })
       .catch((error) => {
         setError(error.message);
         if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
-      })
-      .finally(setLoadingCompanies(false));
+      });
   }, []);
 
   useEffect(() => {
-    if (!loadingCandidates && !loadingCompanies && !loadingReport) {
-      if (selectedReport && candidates.length !== 0 && companies.length !== 0) {
-        console.log("Cand id: ", selectedReport.candidateId);
-        console.log("candidates before find: ", candidates);
-        const candidate = candidates.find(
-          (c) => c.id == selectedReport.candidateId
-        );
-        const company = companies.find((c) => c.id == selectedReport.companyId);
-        console.log(
-          "Selected report: ",
-          selectedReport,
-          " selectedCandidate ",
-          candidate
-        );
-        dispatchWizAction({
-          type: "SELECT_CANDIDATE",
-          payload: candidate,
-        });
-        dispatchWizAction({ type: "SELECT_COMPANY", payload: company });
+    if (
+      !wizState.loadingCandidates &&
+      !wizState.loadingCompanies &&
+      !wizState.loadingReport
+    ) {
+      setLoading(false);
+      if (wizState.editedReport) {
+        dispatchWizAction({ type: "LOAD_EDITED_REPORT_DATA" });
       }
     }
   }, [
-    loadingCandidates,
-    loadingCompanies,
-    loadingReport,
-    selectedReport,
-    companies,
-    candidates,
+    wizState.loadingCandidates,
+    wizState.loadingCompanies,
+    wizState.loadingReport,
+    wizState.editedReport,
   ]);
 
   const handleSelectCandidate = (candidate) => {
@@ -200,7 +211,7 @@ export default function Wizard(props) {
       companyName: wizState.selectedCompany.name,
     };
     const reportData = { ...selectedData, interviewDate, phase, status, note };
-    if (selectedReport) reportData.id = +selectedReport.id;
+    if (wizState.editedReport) reportData.id = +wizState.editedReport.id;
     console.log("reportData: ", reportData);
     ReportCommunicator.save(reportData)
       .then((response) => console.log(response))
@@ -218,8 +229,7 @@ export default function Wizard(props) {
   };
 
   if (error) return <ErrorDisplay message={error} />;
-  if (loadingCandidates || loadingCompanies || loadingReport)
-    return <LoaderRipple />;
+  if (loading) return <LoaderRipple />;
 
   return (
     <Row className="mt-4  m-0">
@@ -245,7 +255,7 @@ export default function Wizard(props) {
         {wizState.currentStep === 0 && (
           <WizSelect
             onSelectItem={handleSelectCandidate}
-            items={candidates}
+            items={wizState.candidates}
             ItemCard={WizCandidateCard}
             selected={wizState.selectedCandidate}
             {...sharedSelectProps}
@@ -254,7 +264,7 @@ export default function Wizard(props) {
         {wizState.currentStep === 1 && (
           <WizSelect
             onSelectItem={handleSelectCompany}
-            items={companies}
+            items={wizState.companies}
             ItemCard={WizCompanyCard}
             selected={wizState.selectedCompany}
             {...sharedSelectProps}
@@ -264,7 +274,7 @@ export default function Wizard(props) {
           <WizReportForm
             onBackBtnClick={handleBackBtnClick}
             onSubmit={handleFormSubmit}
-            selectedReport={selectedReport}
+            selectedReport={wizState.editedReport}
           />
         )}
       </Col>
