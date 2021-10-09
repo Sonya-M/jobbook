@@ -74,6 +74,7 @@ function concatParams(params) {
 }
 
 export function saveData(action, method, data) {
+  action = method === "PUT" ? action + "/" + data.id : action;
   let link = BASE_URL + action;
   return (fetch(link, {
     method: method,
