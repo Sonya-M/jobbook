@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import AuthCommunicator from "../services/AuthCommunicator";
 
 const AuthContext = React.createContext({

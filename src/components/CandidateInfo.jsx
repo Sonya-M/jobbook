@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import ImageGuaranteed from "./UI/ImageGuaranteed";
 import { PLACEHOLDER_IMG } from "../shared/constants";
 import { Row, Col, Table } from "react-bootstrap";

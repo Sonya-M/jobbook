@@ -7,7 +7,7 @@ import LoaderRipple from "../components/UI/LoaderRipple";
 import CandidateInfo from "../components/CandidateInfo";
 import CandidateReportsTable from "../components/CandidateReportsTable";
 import AuthContext from "../store/auth-context";
-import { SESSION_EXPIRED, PLACEHOLDER_IMG } from "../shared/constants";
+import { SESSION_EXPIRED } from "../shared/constants";
 import styles from "./CandidateReports.module.css";
 import HrStyled from "../components/UI/HrStyled";
 
