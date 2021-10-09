@@ -17,7 +17,7 @@
 }
 
 .reportsTable .phase {
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .action {

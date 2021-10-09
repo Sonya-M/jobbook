@@ -18,21 +18,21 @@ const inputReducer = (state, action) => {
 
 export default function WizReportForm(props) {
   const { selectedReport } = props;
-  if (selectedReport) {
-    // format according to select option values
-    selectedReport.status =
-      selectedReport.status.toLowerCase() === "passed" ? "Passed" : "Declined";
-    selectedReport.phase =
-      selectedReport.phase.toLowerCase() === "cv"
-        ? "CV"
-        : selectedReport.phase.toLowerCase() === "hr"
-        ? "HR"
-        : selectedReport.phase.toLowerCase() === "tech"
-        ? "Tech"
-        : selectedReport.phase.toLowerCase() === "final"
-        ? "Final"
-        : "";
-  }
+  // if (selectedReport) {
+  //   // format according to select option values
+  //   selectedReport.status =
+  //     selectedReport.status.toLowerCase() === "passed" ? "Passed" : "Declined";
+  //   selectedReport.phase =
+  //     selectedReport.phase.toLowerCase() === "cv"
+  //       ? "CV"
+  //       : selectedReport.phase.toLowerCase() === "hr"
+  //       ? "HR"
+  //       : selectedReport.phase.toLowerCase() === "tech"
+  //       ? "Tech"
+  //       : selectedReport.phase.toLowerCase() === "final"
+  //       ? "Final"
+  //       : "";
+  // }
   const [formIsValid, setFormIsValid] = useState(false);
   const [markInvalid, setMarkInvalid] = useState(false); // mark invalid input
   //  only after first attempt to submit
