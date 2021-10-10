@@ -1,20 +1,22 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
+import WizContext from "../../store/wiz-context";
 
-export default function WizSelectedInfo(props) {
+export default function WizSelectedInfo() {
+  const ctx = useContext(WizContext);
   return (
     <section className="text-muted">
-      {props.candidateName ? (
+      {ctx.selectedCandidate ? (
         <Fragment>
           <h6>Candidate:</h6>
-          <p>{props.candidateName}</p>
+          <p>{ctx.selectedCandidate.name}</p>
         </Fragment>
       ) : (
         <Fragment />
       )}
-      {props.companyName ? (
+      {ctx.selectedCompany ? (
         <Fragment>
           <h6>Company:</h6>
-          <p>{props.companyName}</p>
+          <p>{ctx.selectedCompany.name}</p>
         </Fragment>
       ) : (
         <Fragment />

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import ErrorBoundary from "./components/ErrorBoundary";
 import NavigationBar from "./components/UI/NavigationBar";
 import Footer from "./components/UI/Footer";
@@ -13,7 +13,6 @@ import AuthContext from "./store/auth-context";
 
 import { Container } from "react-bootstrap";
 import './App.css';
-import { Link } from "react-router-dom";
 
 
 function App() {

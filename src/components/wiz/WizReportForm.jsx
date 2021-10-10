@@ -1,4 +1,5 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState, useContext } from "react";
+import WizContext from "../../store/wiz-context";
 import { formatDateForHtmlInput } from "../../utilities/helpers";
 import { Row, Col, Form, FormGroup, Button } from "react-bootstrap";
 import styles from "./WizReportForm.module.css";
@@ -16,28 +17,29 @@ const inputReducer = (state, action) => {
   return { value: "", isValid: false };
 };
 
-export default function WizReportForm(props) {
-  const { selectedReport } = props;
+export default function WizReportForm() {
+  const ctx = useContext(WizContext);
+  const { editedReport } = ctx;
   const [formIsValid, setFormIsValid] = useState(false);
   const [markInvalid, setMarkInvalid] = useState(false); // mark invalid input
   //  only after first attempt to submit
   const [dateState, dispatchDate] = useReducer(inputReducer, {
-    value: selectedReport
-      ? formatDateForHtmlInput(new Date(selectedReport.interviewDate))
+    value: editedReport
+      ? formatDateForHtmlInput(new Date(editedReport.interviewDate))
       : "",
-    isValid: selectedReport || null, // !!! with null as init val, not treated as invalid
+    isValid: editedReport || null, // !!! with null as init val, not treated as invalid
   });
   const [phaseState, dispatchPhase] = useReducer(inputReducer, {
-    value: selectedReport ? selectedReport.phase : "",
-    isValid: selectedReport || null,
+    value: editedReport ? editedReport.phase : "",
+    isValid: editedReport || null,
   });
   const [statusState, dispatchStatus] = useReducer(inputReducer, {
-    value: selectedReport ? selectedReport.status : "",
-    isValid: selectedReport || null,
+    value: editedReport ? editedReport.status : "",
+    isValid: editedReport || null,
   });
   const [noteState, dispatchNote] = useReducer(inputReducer, {
-    value: selectedReport ? selectedReport.note : "",
-    isValid: selectedReport || null,
+    value: editedReport ? editedReport.note : "",
+    isValid: editedReport || null,
   });
 
   const handleDateChange = (e) => {
@@ -61,7 +63,7 @@ export default function WizReportForm(props) {
           statusState.isValid &&
           noteState.isValid
       );
-    }, 100);
+    }, 300);
 
     return () => {
       clearTimeout(timerID);
@@ -80,7 +82,7 @@ export default function WizReportForm(props) {
       setMarkInvalid(true);
       return;
     }
-    props.onSubmit({
+    ctx.onFormSubmit({
       interviewDate: dateState.value,
       phase: phaseState.value,
       status: statusState.value,
@@ -156,7 +158,7 @@ export default function WizReportForm(props) {
         </Col>
       </Row>
       <div className="d-flex justify-content-between">
-        <Button variant="dark" className="m-3" onClick={props.onBackBtnClick}>
+        <Button variant="dark" className="m-3" onClick={ctx.onBackBtnClick}>
           Back
         </Button>
         <Button

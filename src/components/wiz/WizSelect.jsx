@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WizSelectBtns from "./WizSelectBtns";
 import WizOptionList from "./WizOptionList";
+import SearchBar from "../SearchBar";
+import { includesIgnoreCase } from "../../utilities/helpers";
 
 import { Row } from "react-bootstrap";
 import styles from "./WizSelect.module.css";
-import SearchBar from "../SearchBar";
 
+// this component is reusable - accepts either candidates or companies,
+// so use props rather than ctx
 export default function WizSelect(props) {
   const [filterText, setFilterText] = useState("");
+  const [filteredItems, setFilteredItems] = useState(props.items);
 
-  const { items } = props;
+  useEffect(() => {
+    setFilteredItems(
+      props.items.filter((item) => includesIgnoreCase(item.name, filterText))
+    );
+  }, [filterText]);
+
   const { ItemCard } = props;
 
   const handleSelect = (item) => {
@@ -25,7 +34,7 @@ export default function WizSelect(props) {
       <Row className="justify-content-center">
         <SearchBar onSearch={handleSearch} />
         <WizOptionList
-          items={items}
+          items={filteredItems}
           filterText={filterText}
           ItemCard={ItemCard}
           onSelect={handleSelect}
@@ -33,12 +42,7 @@ export default function WizSelect(props) {
         />
       </Row>
 
-      <WizSelectBtns
-        currentStep={props.currentStep}
-        onBackBtnClick={props.onBackBtnClick}
-        onNextBtnClick={props.onNextBtnClick}
-        selected={props.selected}
-      />
+      <WizSelectBtns selected={props.selected} />
     </div>
   );
 }

@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
+import WizContext from "../../store/wiz-context";
+
 import styles from "./WizSelectBtns.module.css";
 import { Button } from "react-bootstrap";
 
 export default function WizSelectBtns(props) {
+  const ctx = useContext(WizContext);
   return (
     <div className={`${styles.buttonBox} d-flex  justify-content-between `}>
-      {props.currentStep !== 0 ? (
-        <Button variant="dark" onClick={props.onBackBtnClick}>Back</Button>
+      {ctx.currentStep !== 0 ? (
+        <Button variant="dark" onClick={ctx.onBackBtnClick}>
+          Back
+        </Button>
       ) : (
         // must use div instead of Fragment for layout
         <div />
       )}
-      <Button variant="dark"
+      <Button
+        variant="dark"
         className={!props.selected ? "disabled" : " "}
-        onClick={props.onNextBtnClick}
+        onClick={ctx.onNextBtnClick}
       >
         Next
       </Button>
