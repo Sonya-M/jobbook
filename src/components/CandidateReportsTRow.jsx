@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 import styles from "./CandidateReportsTRow.module.css";
 
 import {
@@ -14,7 +15,13 @@ export default function CandidateReportsTBody(props) {
   return (
     <tr className={styles.reportsTableRow}>
       <td>{r.companyName}</td>
-      {props.admin ? <td>{r.candidateName}</td> : <Fragment />}
+      {props.admin ? (
+        <td>
+          <Link to={`/candidate/${r.candidateId}`}>{r.candidateName}</Link>
+        </td>
+      ) : (
+        <Fragment />
+      )}
       <td>{props.admin ? r.getShortInterviewDate() : r.getInterviewDate()}</td>
       <td className={styles.phase}>{r.phase}</td>
       <td className={styles.status}>
