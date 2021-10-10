@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import ErrorDisplay from "../components/ErrorDisplay";
 import SearchBar from "../components/SearchBar";
@@ -28,7 +28,8 @@ export default function AdminPage(props) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [reportToDelete, setReportToDelete] = useState(null);
 
-  const getReports = () => {
+  const { onSessionExpired } = authCtx;
+  const getReports = useCallback(() => {
     ReportCommunicator.getAll()
       .then((data) => {
         setReports(data);
@@ -37,16 +38,16 @@ export default function AdminPage(props) {
       .catch((error) => {
         console.log(error);
         setError(error.message);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+        if (error.message === SESSION_EXPIRED) onSessionExpired();
       })
       .finally(() => {
         setLoading(false);
       });
-  };
+  }, [onSessionExpired]);
 
   useEffect(() => {
     getReports();
-  }, []);
+  }, [getReports]);
 
   useEffect(() => {
     setFilteredReports(
@@ -57,7 +58,7 @@ export default function AdminPage(props) {
         );
       })
     );
-  }, [searchText]);
+  }, [searchText, reports]);
 
   const handleSearch = (filterText) => {
     setSearchText(filterText);

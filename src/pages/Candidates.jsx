@@ -16,6 +16,7 @@ const Candidates = (props) => {
   const [searchText, setSearchText] = useState("");
   const [filteredCandidates, setFilteredCandidates] = useState([]);
 
+  const { onSessionExpired } = authCtx;
   useEffect(() => {
     // i.e. if no data cache for candidates is stored in context...
     console.log("Fetching candidates...");
@@ -27,12 +28,12 @@ const Candidates = (props) => {
       })
       .catch((error) => {
         setError(error.message);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+        if (error.message === SESSION_EXPIRED) onSessionExpired();
       })
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [onSessionExpired]);
 
   useEffect(() => {
     setFilteredCandidates(
@@ -40,7 +41,7 @@ const Candidates = (props) => {
         return includesIgnoreCase(candidate.name, searchText);
       })
     );
-  }, [searchText]);
+  }, [searchText, candidates]);
 
   const handleSearch = (filterText) => {
     setSearchText(filterText);

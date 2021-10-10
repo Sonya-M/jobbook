@@ -17,7 +17,7 @@ export default function WizSelect(props) {
     setFilteredItems(
       props.items.filter((item) => includesIgnoreCase(item.name, filterText))
     );
-  }, [filterText]);
+  }, [filterText, props.items]);
 
   const { ItemCard } = props;
 

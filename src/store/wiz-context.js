@@ -131,6 +131,8 @@ export const WizContextProvider = (props) => {
   const [loading, setLoading] = useState(true);
   const [wizState, dispatchWizAction] = useReducer(wizReducer, defaultWizState);
 
+  const { onSessionExpired } = authCtx;
+
   useEffect(() => {
     if (+id !== 0) {
       ReportCommunicator.getById(+id)
@@ -140,12 +142,12 @@ export const WizContextProvider = (props) => {
         })
         .catch((error) => {
           setError(error.message);
-          if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+          if (error.message === SESSION_EXPIRED) onSessionExpired();
         });
     } else {
       dispatchWizAction({ type: "NO_REPORT_TO_FETCH" });
     }
-  }, []);
+  }, [id, onSessionExpired]);
 
   useEffect(() => {
     CandidateCommunicator.getAll()
@@ -155,9 +157,9 @@ export const WizContextProvider = (props) => {
       })
       .catch((error) => {
         setError(error.message);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+        if (error.message === SESSION_EXPIRED) onSessionExpired();
       });
-  }, []);
+  }, [onSessionExpired]);
 
   useEffect(() => {
     CompanyCommunicator.getAll()
@@ -167,9 +169,9 @@ export const WizContextProvider = (props) => {
       })
       .catch((error) => {
         setError(error.message);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+        if (error.message === SESSION_EXPIRED) onSessionExpired();
       });
-  }, []);
+  }, [onSessionExpired]);
 
   useEffect(() => {
     if (
@@ -225,7 +227,7 @@ export const WizContextProvider = (props) => {
       .then(history.push("/admin"))
       .catch((error) => {
         setError(error.message);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+        if (error.message === SESSION_EXPIRED) onSessionExpired();
       });
   };
 

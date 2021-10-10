@@ -23,6 +23,7 @@ export default function CandidateReports(props) {
 
   const [error, setError] = useState(false);
 
+  const { onSessionExpired } = authCtx;
   useEffect(() => {
     CandidateCommunicator.getById(id)
       .then((data) => {
@@ -32,12 +33,12 @@ export default function CandidateReports(props) {
       .catch((error) => {
         console.log(error);
         setError(error.message);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+        if (error.message === SESSION_EXPIRED) onSessionExpired();
       })
       .finally(() => {
         setLoadingCandidate(false);
       });
-  }, []);
+  }, [id, onSessionExpired]);
 
   useEffect(() => {
     ReportCommunicator.getAllForCandidate(id)
@@ -48,12 +49,12 @@ export default function CandidateReports(props) {
       .catch((error) => {
         console.log(error);
         setError(error.message);
-        if (error.message === SESSION_EXPIRED) authCtx.onSessionExpired();
+        if (error.message === SESSION_EXPIRED) onSessionExpired();
       })
       .finally(() => {
         setLoadingReports(false);
       });
-  }, []);
+  }, [id, onSessionExpired]);
 
   // TODO: too much repetition here (see admin page)
   const sortReportsBy = (propName, desc) => {

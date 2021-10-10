@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import AuthCommunicator from "../services/AuthCommunicator";
 
 const AuthContext = React.createContext({
@@ -40,10 +40,10 @@ export const AuthContextProvider = (props) => {
     clearSession();
   }
 
-  const handleSessionExpired = () => {
+  const handleSessionExpired = useCallback(() => {
     setSessionExpired(true);
     clearSession();
-  };
+  }, []);
 
   return (
     <AuthContext.Provider value={
