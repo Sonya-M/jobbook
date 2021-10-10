@@ -16,14 +16,19 @@ export default function AdminNavbar(props) {
     window.location.reload();
   };
 
+  const handleWizardClick = () => {
+    history.push("/wizard/0");
+    window.location.reload();
+  };
+
   const title = <span onClick={handleTitleClick}>Admin</span>;
   const menu = [
     <Link to="/">
       <MenuItem icon={<BsFillHouseFill />} desc="Home" />
     </Link>,
-    <Link to="/wizard/0">
+    <span onClick={handleWizardClick}>
       <MenuItem icon={<BsPlusCircle />} desc="New Report" />
-    </Link>,
+    </span>,
     <span onClick={authCtx.onLogout}>
       <MenuItem icon={<MdLogout />} desc="LogOut" />
     </span>,
