@@ -19,15 +19,10 @@
   background-color: white;
 }
 
-.smallModal {
-  position: fixed;
-  border-radius: 0.3rem;
+.small {
   top: 15vh;
   left: 20%;
   width: 60%;
-  z-index: 100;
-  overflow: hidden;
-  background-color: white;
 }
 
 .header {
@@ -36,6 +31,10 @@
   padding: 1rem;
   display: flex;
   justify-content: space-between;
+}
+
+.small .header {
+  padding: 0.4rem;
 }
 
 .header h2 {
@@ -56,15 +55,13 @@
   padding: 1rem;
 }
 
-.actions {
-  padding: 1rem;
-  display: flex;
-  justify-content: flex-end;
+.small .content {
+  text-align: center;
+  font-size: 1.5rem;
 }
 
 @media (max-width: 500px) {
-  .modal,
-  .smallModal {
+  .modal {
     top: 10vh;
     font-size: small;
   }
@@ -75,7 +72,7 @@
     left: calc(50% - 22rem);
     width: 44rem;
   }
-  .smallModal {
+  .small {
     left: calc(50% - 14rem);
     width: 28rem;
   }

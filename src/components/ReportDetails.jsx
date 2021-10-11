@@ -10,7 +10,7 @@ export default function ReportDetails(props) {
     <ModalWrapper
       title="Report details"
       content={<Content report={report} />}
-      onClick={props.onClick}
+      onClose={props.onClose}
     />
   );
 }

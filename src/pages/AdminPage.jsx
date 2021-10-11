@@ -5,7 +5,7 @@ import SearchBar from "../components/SearchBar";
 import CandidateReportsTable from "../components/CandidateReportsTable";
 import ReportCommunicator from "../services/ReportCommunicator";
 import LoaderRipple from "../components/UI/LoaderRipple";
-import ConfirmModal from "../components/UI/ConfirmModal";
+import ModalConfirmDialog from "../components/UI/ModalConfirmDialog";
 
 import AuthContext from "../store/auth-context";
 import { SESSION_EXPIRED } from "../shared/constants";
@@ -25,7 +25,7 @@ export default function AdminPage(props) {
   const [filteredReports, setFilteredReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(""); // error as a string with the error msg
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [reportToDelete, setReportToDelete] = useState(null);
 
   const { onSessionExpired } = authCtx;
@@ -81,7 +81,7 @@ export default function AdminPage(props) {
     }
   };
   const handleDeleteReport = (id) => {
-    setShowConfirm(true);
+    setShowConfirmDialog(true);
     setReportToDelete(id);
     // if (window.confirm("Delete report?")) {
     //   deleteReport(id);
@@ -90,12 +90,12 @@ export default function AdminPage(props) {
 
   const handleCancelDelete = () => {
     setReportToDelete(null);
-    setShowConfirm(false);
+    setShowConfirmDialog(false);
   };
 
   const handleConfirmDelete = () => {
     deleteReport();
-    setShowConfirm(false);
+    setShowConfirmDialog(false);
   };
 
   const handleEditReport = (id) => {
@@ -143,8 +143,8 @@ export default function AdminPage(props) {
         onPhaseClick={sortByPhase}
         onStatusClick={sortByStatus}
       />
-      {showConfirm ? (
-        <ConfirmModal
+      {showConfirmDialog ? (
+        <ModalConfirmDialog
           content="Delete report?"
           onCancel={handleCancelDelete}
           onConfirm={handleConfirmDelete}

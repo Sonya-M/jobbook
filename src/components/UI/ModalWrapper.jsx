@@ -10,19 +10,17 @@ const Backdrop = (props) => {
 
 const ModalOverlay = (props) => {
   return (
-    <div className={`${props.small ? styles.smallModal : styles.modal}`}>
+    <div className={`${styles.modal} ${props.small ? styles.small : ""}`}>
       <header className={styles.header}>
-        <h2>{props.title}</h2>
-        <Button variant="small" onClick={props.onClick}>
+        {/* if no title, empty string for formatting */}
+        <h2>{props.title ? props.title : ""}</h2>
+        <Button variant="small" onClick={props.onClose}>
           X
         </Button>
       </header>
       <div className={styles.content}>{props.content}</div>
-      {/* <footer className={styles.actions}>
-        <Button className="btn-secondary" onClick={props.onClick}>
-          Okay
-        </Button>
-      </footer> */}
+      {/* footer for additional buttons */}
+      {props.footerContent ? <footer>{props.footerContent}</footer> : null}
     </div>
   );
 };
@@ -31,14 +29,16 @@ const ModalWrapper = (props) => {
   return (
     <Fragment>
       {ReactDOM.createPortal(
-        <Backdrop onClick={props.onClick} />,
+        <Backdrop onClick={props.onClose} />,
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
         <ModalOverlay
+          small={props.small}
           title={props.title}
           content={props.content}
-          onClick={props.onClick}
+          onClose={props.onClose}
+          footerContent={props.footerContent}
         />,
         document.getElementById("overlay-root")
       )}

@@ -64,7 +64,7 @@ export default function CandidateReportsTable(props) {
         </tbody>
       </Table>
       {reportToModal ? (
-        <ReportDetails report={reportToModal} onClick={hideModal} />
+        <ReportDetails report={reportToModal} onClose={hideModal} />
       ) : (
         <Fragment />
       )}
