@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import CandidateCommunicator from "../services/CandidateCommunicator";
 import ReportCommunicator from "../services/ReportCommunicator";
 import ErrorDisplay from "../components/ErrorDisplay";
