@@ -119,7 +119,7 @@ const wizReducer = (state, action) => {
       currentStep: 2, // go to form as default, can always go back
     };
   }
-  return defaultWizState;
+  return { ...state }; // by default return current state
 };
 
 export const WizContextProvider = (props) => {
