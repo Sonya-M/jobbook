@@ -1,6 +1,6 @@
 import React from "react";
-import ImageGuaranteed from "./UI/ImageGuaranteed";
-import { PLACEHOLDER_IMG } from "../shared/constants";
+import ImageGuaranteed from "../UI/ImageGuaranteed";
+import { PLACEHOLDER_IMG } from "../../shared/constants";
 import { Row, Col, Table } from "react-bootstrap";
 import styles from "./CandidateInfo.module.css";
 

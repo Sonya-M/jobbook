@@ -1,5 +1,5 @@
 import React from "react";
-import ModalWrapper from "./UI/ModalWrapper";
+import ModalWrapper from "../UI/ModalWrapper";
 import { Row, Col } from "react-bootstrap";
 import styles from "./ReportDetails.module.css";
 

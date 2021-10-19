@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import ImageGuaranteed from "./UI/ImageGuaranteed";
-import { PLACEHOLDER_IMG } from "../shared/constants";
+import ImageGuaranteed from "../UI/ImageGuaranteed";
+import { PLACEHOLDER_IMG } from "../../shared/constants";
 import { Col, Card } from "react-bootstrap";
 import styles from "./CandidateCard.module.css";
 

@@ -6,7 +6,7 @@ import WizCandidateCard from "./WizCandidateCard";
 import WizCompanyCard from "./WizCompanyCard";
 import WizReportForm from "./WizReportForm";
 import WizSelectedInfo from "./WizSelectedInfo";
-import ErrorDisplay from "../ErrorDisplay";
+import ErrorDisplay from "../UI/ErrorDisplay";
 import LoaderRipple from "../UI/LoaderRipple";
 import WizContext from "../../store/wiz-context";
 import { useContext } from "react";

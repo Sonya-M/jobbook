@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import ErrorDisplay from "../components/ErrorDisplay";
-import SearchBar from "../components/SearchBar";
-import CandidateReportsTable from "../components/CandidateReportsTable";
+import ErrorDisplay from "../components/UI/ErrorDisplay";
+import SearchBar from "../components/search-bar/SearchBar";
+import CandidateReportsTable from "../components/reports-table/CandidateReportsTable";
 import ReportCommunicator from "../services/ReportCommunicator";
 import LoaderRipple from "../components/UI/LoaderRipple";
 import ModalConfirmDialog from "../components/UI/ModalConfirmDialog";

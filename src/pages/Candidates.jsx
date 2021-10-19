@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import LoaderRipple from "../components/UI/LoaderRipple";
-import ErrorDisplay from "../components/ErrorDisplay";
-import SearchBar from "../components/SearchBar";
-import CandidateList from "../components/CandidateList";
+import ErrorDisplay from "../components/UI/ErrorDisplay";
+import SearchBar from "../components/search-bar/SearchBar";
+import CandidateList from "../components/candidates/CandidateList";
 import CandidateCommunicator from "../services/CandidateCommunicator";
 import AuthContext from "../store/auth-context";
 import { SESSION_EXPIRED } from "../shared/constants";

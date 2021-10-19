@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import WizSelectBtns from "./WizSelectBtns";
 import WizOptionList from "./WizOptionList";
-import SearchBar from "../SearchBar";
+import SearchBar from "../search-bar/SearchBar";
 import { includesIgnoreCase } from "../../utilities/helpers";
 
 import { Row } from "react-bootstrap";

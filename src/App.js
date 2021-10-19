@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Route, Switch, Redirect, Link } from 'react-router-dom';
-import ErrorBoundary from "./components/ErrorBoundary";
-import NavigationBar from "./components/UI/NavigationBar";
-import Footer from "./components/UI/Footer";
+import ErrorBoundary from "./components/error-boundary/ErrorBoundary";
+import NavigationBar from "./components/navigation/NavigationBar";
+import Footer from "./components/footer/Footer";
 import LoginPage from "./pages/LoginPage";
 import Candidates from './pages/Candidates';
 import CandidateReports from "./pages/CandidateReports";
-import ErrorDisplay from "./components/ErrorDisplay";
+import ErrorDisplay from "./components/UI/ErrorDisplay";
 import AdminPage from "./pages/AdminPage";
 import Wizard from "./pages/Wizard";
 import AuthContext from "./store/auth-context";
