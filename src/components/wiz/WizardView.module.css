@@ -3,6 +3,28 @@
   padding: 0.5rem;
 }
 
+button.cancelBtn {
+  border-radius: 0.3rem;
+  margin: 0.5rem;
+  margin-top: 1rem;
+  color: teal;
+  border: 2px solid currentColor;
+  background-color: whitesmoke;
+  align-self: center;
+}
+
+button.cancelBtn:hover,
+button.cancelBtn:active,
+button.cancelBtn:focus,
+button.cancelBtn:target,
+button.cancelBtn:checked,
+button.cancelBtn:active:focus {
+  color: whitesmoke;
+  background-color: teal;
+  border-color: teal;
+  box-shadow: 0 0 0 transparent;
+}
+
 @media screen and (min-width: 576px) {
   .optionsDiv {
     border-left: 1px solid lightgray;
